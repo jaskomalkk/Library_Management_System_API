@@ -10,7 +10,7 @@ const swaggerOptions = {
       description: 'API for managing books in a library'
     },
   },
-  apis: ['./src/routes/*.ts'],
+  apis: ['./src/routes/*.ts'], // Ensure your API routes are correctly listed
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);

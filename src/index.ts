@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import booksRouter from './routes/books';
 
-import { swaggerSpec, swaggerUi } from './config/swagger'; // Import Swagger
+import { swaggerSpec, swaggerUi } from '../swagger/swagger'; // Import Swagger
 
 const app = express();
 const port = process.env.PORT || 5000;
