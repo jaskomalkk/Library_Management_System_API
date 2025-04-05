@@ -1,13 +1,7 @@
-// tests/books.test.js
+import request from 'supertest';
+import { app } from './testUtils'; // Import the app from testUtils.ts
 
-const request = require('supertest');
-const express = require('express');
-const { getBooks, createBook, updateBook, deleteBook } = require('../controllers/booksController');
-const app = express();
-app.use(express.json());
-
-// Dummy data for testing
-let bookId;
+let bookId: string; // Declare bookId to be used in all tests
 
 describe('Books API', () => {
   // Test for creating a new book
