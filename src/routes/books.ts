@@ -1,6 +1,15 @@
 import express from 'express';
 import * as bookService from '../services/bookService';
 
+/**
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Retrieve a list of all books
+ *     responses:
+ *       200:
+ *         description: List of books
+ */
 const router = express.Router();
 
 router.get('/', async (req, res) => {
