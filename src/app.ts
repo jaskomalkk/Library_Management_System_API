@@ -11,13 +11,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Setup Sequelize (similar to Flask SQLAlchemy setup)
-const sequelize = new Sequelize({
+export const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: 'books.db'  // Using SQLite as database
+  storage: 'books.db'  // Using SQLite as the database
 });
 
 // Define Book model (similar to models.book_model import in Flask)
-const Book = sequelize.define('Book', {
+export const Book = sequelize.define('Book', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
