@@ -16,7 +16,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchBooks = void 0;
-const sequelize_1 = require("sequelize"); // Import Sequelize to use Op
+const sequelize_1 = require("sequelize"); // Import Op separately from Sequelize
 const book_model_1 = __importDefault(require("../models/book_model")); // Import Book model for querying the database
 // Function to handle the search functionality
 const searchBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,9 +31,9 @@ const searchBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // Query the database to find books that match the title or author
         const results = yield book_model_1.default.findAll({
             where: {
-                [sequelize_1.Sequelize.Op.or]: [
-                    { title: { [sequelize_1.Sequelize.Op.iLike]: `%${titleQuery}%` } }, // Case-insensitive search for title
-                    { author: { [sequelize_1.Sequelize.Op.iLike]: `%${authorQuery}%` } }, // Case-insensitive search for author
+                [sequelize_1.Op.or]: [
+                    { title: { [sequelize_1.Op.iLike]: `%${titleQuery}%` } }, // Case-insensitive search for title
+                    { author: { [sequelize_1.Op.iLike]: `%${authorQuery}%` } }, // Case-insensitive search for author
                 ]
             }
         });
