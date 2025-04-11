@@ -7,7 +7,7 @@ const searchRouter = express.Router();
 // Define a GET route for searching books
 searchRouter.get('/search', async (req: Request, res: Response) => {
   try {
-    await searchBooks(req, res);  // Calls the searchBooks function when /search is accessed
+    await searchBooks(req, res);  
   } catch (error) {
     // Type assertion to specify that the error is of type Error
     const e = error as Error; 
