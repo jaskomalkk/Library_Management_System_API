@@ -15,5 +15,5 @@ searchRouter.get('/search', async (req: Request, res: Response) => {
   }
 });
 
-// Export the router to be used in the main app
+
 export default searchRouter;
