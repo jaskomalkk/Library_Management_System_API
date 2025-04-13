@@ -1,4 +1,4 @@
-import * as bookService from '../services/bookService';
+import * as bookService from '../services/book.service';
 
 
 test('createBook creates a new book', async () => {
