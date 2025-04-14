@@ -3,4 +3,9 @@ export interface Book {
     author: string;
     available: boolean;
   }
-  
+// models/book.ts
+export interface Book {
+  name: string;
+  category: string;
+  price: number;
+}
