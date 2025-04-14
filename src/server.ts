@@ -1,18 +1,21 @@
-// src/server.js
+// src/server.ts (or server.js if using ES modules)
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const authRoutes = require('./routes/authRoutes');
+import express from 'express';
+import booksRouter from './routes/books'; // Make sure this file exists
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json()); // Parse incoming JSON requests
+app.use(express.json()); // Parse incoming JSON requests
 
-// Use the authentication routes
-app.use('/api', authRoutes);
+// Mount the books router
+app.use('/api/books', booksRouter);
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+// Only start the server if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
+
+export { app };

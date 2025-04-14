@@ -2,7 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import booksRouter from './routes/books';  // Assuming this file handles routes for books
+import booksRouter from './routes/books';  
 import { swaggerSpec, swaggerUi } from '../swagger/swagger'; // Import Swagger setup
 import { Sequelize, DataTypes } from 'sequelize'; // Import Sequelize for ORM
 

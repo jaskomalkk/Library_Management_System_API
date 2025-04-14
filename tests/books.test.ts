@@ -1,10 +1,9 @@
 import request from 'supertest';
-import { app } from './testUtils'; // Import the app from testUtils.ts
+import { app } from './testUtils'; // Make sure testUtils exports `app` correctly
 
-let bookId: string; // Declare bookId to be used in all tests
+let bookId: string; // <-- This was missing in your file
 
 describe('Books API', () => {
-  // Test for creating a new book
   it('should create a new book', async () => {
     const response = await request(app)
       .post('/api/books')
@@ -13,29 +12,28 @@ describe('Books API', () => {
         author: 'F. Scott Fitzgerald',
         available: true,
       });
+
     expect(response.status).toBe(201);
     expect(response.body.title).toBe('The Great Gatsby');
     expect(response.body.author).toBe('F. Scott Fitzgerald');
-    bookId = response.body.id; // Save book ID for further tests
+    bookId = response.body.id;
   });
 
-  // Test for getting all books
   it('should get all books', async () => {
     const response = await request(app).get('/api/books');
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
   });
 
-  // Test for updating a book
   it('should update a book', async () => {
     const response = await request(app)
       .put(`/api/books/${bookId}`)
       .send({ available: false });
+
     expect(response.status).toBe(200);
     expect(response.body.available).toBe(false);
   });
 
-  // Test for deleting a book
   it('should delete a book', async () => {
     const response = await request(app).delete(`/api/books/${bookId}`);
     expect(response.status).toBe(200);
