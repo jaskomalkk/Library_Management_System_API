@@ -9,3 +9,12 @@ export interface Book {
   category: string;
   price: number;
 }
+export interface Book {
+  title: string;
+  name: string;
+  author: string;
+  category: string;
+  price: number;
+  available: boolean;
+}
+

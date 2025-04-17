@@ -8,7 +8,7 @@ exports.Book = exports.sequelize = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const books_1 = __importDefault(require("./routes/books")); // Assuming this file handles routes for books
+const books_1 = __importDefault(require("./routes/books"));
 const swagger_1 = require("../swagger/swagger"); // Import Swagger setup
 const sequelize_1 = require("sequelize"); // Import Sequelize for ORM
 // Initialize Express app
