@@ -12,17 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBook = exports.updateBook = exports.getBooksSortedByPrice = exports.getBooksByCategory = exports.getBooks = exports.createBook = void 0;
 const firebase_1 = require("../config/firebase");
 const bookService_1 = require("../services/bookService");
-// Create a new book
+const validation_1 = require("../utils/validation"); // Import validation function
+// Create a new book with validation
 const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, author, available, category, price } = req.body;
     try {
+        // Validate that price is a positive number
+        (0, validation_1.validatePositivePrice)(price);
         const bookRef = firebase_1.db.collection('books').doc();
         const newBook = { id: bookRef.id, title, author, available, category, price };
         yield bookRef.set(newBook);
         res.status(201).json(newBook);
     }
     catch (error) {
-        res.status(500).send(error.message);
+        res.status(400).json({ error: error.message });
     }
 });
 exports.createBook = createBook;

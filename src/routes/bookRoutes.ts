@@ -1,11 +1,14 @@
-// routes/bookRoutes.js
 const express = require('express');
 const {
+  createBook,
   getBooksByCategory,
   getBooksSortedByPrice
 } = require('../controllers/bookController');
 
 const router = express.Router();
+
+// Route to create a new book (with validation)
+router.post('/books', createBook);
 
 // Route to get books by category
 router.get('/books', getBooksByCategory);

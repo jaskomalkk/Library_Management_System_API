@@ -2,18 +2,23 @@ import { Request, Response } from 'express';
 import { db } from '../config/firebase';
 import { filterByCategory, sortByPrice } from '../services/bookService';
 import { Book } from '../models/book';
+import { validatePositivePrice } from '../utils/validation';  // Import validation function
 
-// Create a new book
+
+// Create a new book with validation
 export const createBook = async (req: Request, res: Response) => {
   const { title, author, available, category, price } = req.body;
 
   try {
+    // Validate that price is a positive number
+    validatePositivePrice(price);
+
     const bookRef = db.collection('books').doc();
     const newBook = { id: bookRef.id, title, author, available, category, price };
     await bookRef.set(newBook);
     res.status(201).json(newBook);
   } catch (error: unknown) {
-    res.status(500).send((error as Error).message);
+    res.status(400).json({ error: (error as Error).message });
   }
 };
 
