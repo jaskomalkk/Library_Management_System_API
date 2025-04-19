@@ -13,20 +13,81 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const user_1 = require("../models/user");
-const authMiddleware_1 = require("../middleware/authMiddleware");
+const userController_1 = require("../controllers/userController");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
 const router = express_1.default.Router();
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: Endpoints for user management
+ */
+/**
+ * @swagger
+ * /user/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ */
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    const message = yield (0, user_1.registerUser)(username, password);
-    res.send(message);
+    const message = yield (0, userController_1.registerUser)(username, password);
+    res.status(201).send(message);
 }));
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Log in a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: JWT token returned
+ */
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    const token = yield (0, user_1.loginUser)(username, password);
+    const token = yield (0, userController_1.loginUser)(username, password);
     res.send({ token });
 }));
-// A protected route example
+/**
+ * @swagger
+ * /user/profile:
+ *   get:
+ *     summary: Access the profile of the logged-in user
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A welcome message with user ID
+ *       401:
+ *         description: Unauthorized
+ */
 router.get('/profile', authMiddleware_1.authenticate, (req, res) => {
     var _a;
     res.send(`Welcome, ${(_a = req.user) === null || _a === void 0 ? void 0 : _a.userId}`);

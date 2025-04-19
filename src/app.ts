@@ -45,19 +45,20 @@ app.use(helmet());
 app.use(bodyParser.json()); // Optional: You could use express.json() directly
 // app.use(express.json()); // Alternative
 
-// API Documentation
+// ✅ API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Routes
+// ✅ Routes
 app.use('/user', userRoutes);
 app.use('/books', booksRouter);
 
-// Sync DB and Start Server
+// ✅ Sync DB and Start Server
 sequelize.sync()
   .then(() => {
     console.log('Database synced successfully');
     app.listen(port, () => {
       console.log(`Server running on http://localhost:${port}`);
+      console.log(`Swagger docs at http://localhost:${port}/api-docs`);
     });
   })
   .catch(err => {
