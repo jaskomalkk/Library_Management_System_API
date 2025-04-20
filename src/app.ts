@@ -2,21 +2,28 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import booksRouter from './routes/books';  // Assuming this file handles routes for books
-import { swaggerSpec, swaggerUi } from '../swagger/swagger'; // Import Swagger setup
-import { Sequelize, DataTypes } from 'sequelize'; // Import Sequelize for ORM
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import { Sequelize, DataTypes } from 'sequelize';
+
+import userRoutes from './routes/userRoutes';
+import booksRouter from './routes/books';
+import { swaggerSpec, swaggerUi } from '../swagger/swagger'; // Swagger setup
+
+// Load environment variables
+dotenv.config();
 
 // Initialize Express app
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Setup Sequelize (similar to Flask SQLAlchemy setup)
+// Setup Sequelize (SQLite used here)
 export const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: 'books.db'  // Using SQLite as the database
+  storage: 'books.db'
 });
 
-// Define Book model (similar to models.book_model import in Flask)
+// Define Book model
 export const Book = sequelize.define('Book', {
   title: {
     type: DataTypes.STRING,
@@ -32,24 +39,26 @@ export const Book = sequelize.define('Book', {
   }
 });
 
-// Middleware setup
-app.use(cors());  // Enable CORS
-app.use(helmet());  // Apply security headers
-app.use(express.json());  // Parse incoming JSON requests
+// Middleware
+app.use(cors());
+app.use(helmet());
+app.use(bodyParser.json()); // Optional: You could use express.json() directly
+// app.use(express.json()); // Alternative
 
-// Set up Swagger UI for API documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));  // Serve Swagger UI
+// ✅ API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Route for handling books-related API requests
-app.use('/books', booksRouter);  // Assuming booksRouter is defined in ./routes/books
+// ✅ Routes
+app.use('/user', userRoutes);
+app.use('/books', booksRouter);
 
-// Sync Sequelize models and start server
+// ✅ Sync DB and Start Server
 sequelize.sync()
   .then(() => {
     console.log('Database synced successfully');
-    // Start the server
     app.listen(port, () => {
       console.log(`Server running on http://localhost:${port}`);
+      console.log(`Swagger docs at http://localhost:${port}/api-docs`);
     });
   })
   .catch(err => {
